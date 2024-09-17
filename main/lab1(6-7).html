@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script language='JavaScript'>
+        let Books = ['Месники', 'Мертві душі', 'Пісня льоду та полум\'я'];
+        let CountOfBooks = [15, 10, 40];
+        let PriceOfBooks = [100, 150, 500];
+
+        function fun1() {
+
+            let bookName = document.getElementById('bookSelect').value;
+
+           
+            let bookIndex = Books.indexOf(bookName);
+
+            
+            if (bookIndex !== -1) {
+                alert(`Наявна кількість: ${CountOfBooks[bookIndex]}\nВартість: ${PriceOfBooks[bookIndex]}`);
+            } else {
+                alert("Книга не знайдена!");
+            }
+        }
+
+        function fun2() {
+           
+            let bookName = document.getElementById('bookSelect').value;
+
+           
+            let bookIndex = Books.indexOf(bookName);
+
+            
+            if (bookIndex !== -1) {
+                let sum = CountOfBooks[bookIndex] * PriceOfBooks[bookIndex];
+                alert(`Загальна вартість книг цієї назви: ${sum}`);
+            } else {
+                alert("Книга не знайдена!");
+            }
+        }
+
+        function populateDropdown() {
+            const selectElement = document.getElementById('bookSelect');
+            Books.forEach(book => {
+                const option = document.createElement('option');
+                option.value = book;
+                option.text = book;
+                selectElement.add(option);
+            });
+        }
+
+        window.onload = populateDropdown;
+    </script>
+</head>
+<body>
+    <a href="../index.html">Повернення до головної сторінки</a>  
+    <form name="form1">
+        Виберіть книгу:
+        <select id="bookSelect" name="bookSelect">
+        </select>
+        <br><br>
+        <input type="button" value="Наявна кількість і вартість" onClick="fun1()">
+        <input type="button" value="Загальна сума" onClick="fun2()">
+    </form>                                     
+</body>
+</html>
