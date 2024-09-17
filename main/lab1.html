@@ -1,10 +1,111 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Лабораторна робота №1</title>
-</head>
+    <head>
+        <script language="JavaScript">
+            //Завдання 1
+        function calculation() {
+        let x= 20;
+        let y= 10;
+        let result= x + 2*y;
+            //Завдання 2
+        alert("Результат обчислення " + result);
+        }
+        function handleClick() {
+            alert('Елемент був клікнутий!');
+        }
+
+        function handleMouseOut() {
+            alert('Миша вийшла з елемента!');
+        }
+            //Завдання 3
+    function calculationfortast3() {
+    let X = parseFloat(document.getElementById("inputX").value);
+    let Y = parseFloat(document.getElementById("inputY").value);
+
+    let F; 
+
+    if (X * Y > 0 && X * X <= 100) {
+        F = X + Y;
+    } else if (X * X > 100) {
+        F = X;
+    } else {
+        F = Math.pow(X, 3) + Y; 
+    }
+
+    document.getElementById("result").innerText = "Результат обчислення: " + F;
+    }
+    function factorial(n) {
+            let result;
+            if (n < 0) return 'Факторіал не визначений для від\'ємних чисел';
+            if (n == 0){
+                result=1;
+            }else
+                result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+    }
+
+    function calculationfortast4(){
+        let X1 = parseFloat(document.getElementById("inputX1").value);
+        let Y1 = parseFloat(document.getElementById("inputY1").value);
+
+        let result=0;
+        let factorial1=1;
+        for(let i=1;i<=5;i++){
+        factorial1*=i;
+        result += (Math.pow(-1, i) * (X1 + Y1 - factorial(factorial1))) / (factorial(factorial1-1));
+        }
+        document.getElementById("result1").innerText = "Результат обчислення: " + result;
+    }
+        </script>
+    </head>
 <body>
-    <p>Hello World</p>
-</body>
+    <a href="../index.html">Повернення до головної сторінки</a>
+    <h2> Завдання 1</H2>
+    <p> Це звичайний Текст</p>
+    <script language="JavaScript">
+        document.write("Привіт! Мене звати Молитовник Павло Олегович, студент групи ІПЗ-23.")
+    </script>
+    <p>Знову звичайний Текст</p>
+    <form>
+    <input type="button" value="Click me" onClick="alert('Я народився 26.04.2006 року в селі Гаврилівка ')">
+    </form>
+    <h2> Завдання 2</H2>
+        <form>
+            <input type="button" value="Calculate" onClick="calculation()">
+        </form>
+    <h2> Завдання 3</H2>
+        <button onClick="handleClick()">Натисніть на мене</button>
+    <div onMouseOut="handleMouseOut()" style="width: 200px; height: 100px; background-color: lightgray;">
+        Наведіть мишу сюди і виведіть.
+    </div>
+    <h2> Завдання 4</H2> 
+        <form>
+            <p>Введіть x:</p>
+            <input type="number" id="inputX">
+            <p>Введіть y:</p>
+            <input type="number" id="inputY">
+            <P><input type="button" value="Обчислити" onClick="calculationfortast3()"></P>
+        </form>
+        <div id="result"></div>
+    <h2> Завдання 5</H2>
+        <form>
+            <p>Введіть x:</p>
+            <input type="number" id="inputX1">
+            <p>Введіть y:</p>
+            <input type="number" id="inputY1">
+            <P><input type="button" value="Обчислити" onClick="calculationfortast4()"></P>
+            <div id="result1"></div>
+        </form> 
+    <h2> Завдання 6</H2>
+            <form>
+                <p>Введіть x:</p>
+                <input type="number" id="inputX1">
+                <p>Введіть y:</p>
+                <input type="number" id="inputY1">
+                <P><input type="button" value="Обчислити" onClick="calculationfortast4()"></P>
+                <div id="result1"></div>
+            </form> 
+</body>                                        
 </html>
