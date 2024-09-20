@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Годинник, Калькулятор, Таблиця та Console.log()</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            margin: 20px;
+        }
+        #clock {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #calculator {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: 200px;
+            font-size: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            margin: 5px;
+        }
+        #Table, #Console{
+            width: 100px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<p><a href="../index.html">Повернення до Лабораторних</a></p>
+<div id="clock"></div>
+
+<div id="calculator">
+    <input type="text" id="display" disabled>
+    <div>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('+')">+</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('-')">-</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('*')">*</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('/')">/</button>
+    </div>
+</div>
+
+<h1>Створення таблиці</h1>
+<label for="rows">Кількість рядків:</label>
+<input type="number" id="rows" min="1" required>
+<br>
+<label for="cols">Кількість стовпців:</label>
+<input type="number" id="cols" min="1" required>
+<br>
+<button id="Table" onclick="createTable()">Створити таблицю</button>
+
+<div id="table-container"></div>
+<div id="sum-container" style="margin-top: 20px;"></div>
+
+<h1>Дослідження console методів</h1>
+<button id="Console" onclick="runConsoleTests()">Виконати тести</button>
+
+<script>
+    // Годинник
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+
+        const formattedTime = `${hours}:${minutes}:${seconds}+${year}*${month}*${day}`;
+        document.getElementById('clock').innerText = formattedTime;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Відразу оновлюємо при завантаженні
+
+    // Калькулятор
+    function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+    }
+
+    function calculate() {
+        const display = document.getElementById('display');
+        try {
+            display.value = eval(display.value);
+        } catch (error) {
+            display.value = 'Помилка';
+        }
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = '';
+    }
+
+    // Таблиця
+    function createTable() {
+        const rows = parseInt(document.getElementById('rows').value);
+        const cols = parseInt(document.getElementById('cols').value);
+        
+        // Очищення попередньої таблиці
+        const container = document.getElementById('table-container');
+        container.innerHTML = '';
+
+        let sum = 0;
+        const table = document.createElement('table');
+
+        for (let i = 0; i < rows; i++) {
+            const tr = document.createElement('tr');
+            for (let j = 0; j < cols; j++) {
+                const value = 2 * i + j;
+                sum += value;
+                
+                const td = document.createElement('td');
+                td.textContent = value;
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+
+        container.appendChild(table);
+        document.getElementById('sum-container').textContent = `Сума елементів: ${sum}`;
+    }
+
+    // Дослідження console методів
+    function runConsoleTests() {
+        console.clear(); // Очищення консолі
+
+        // 1. Вивід інформації
+        console.info("Це інформаційне повідомлення.");
+
+        // 2. Вивід попередження
+        console.warn("Це попереджувальне повідомлення!");
+
+        // 3. Вивід помилки
+        console.error("Це повідомлення про помилку!");
+
+        // 4. Вивід об'єкту
+        const obj = {name: "Олександр", age: 30, city: "Київ"};
+        console.dir(obj);
+
+        // 5. Вивід XML-структури
+        const xmlString = `<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>`;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+        console.dirxml(xmlDoc);
+
+        // 6. Таймер
+        console.time("Таймер");
+        for (let i = 0; i < 1000000; i++) {} // Затримка
+        console.timeEnd("Таймер");
+
+        // 7. Профілювання
+        console.profile("Мій профіль");
+        for (let i = 0; i < 1000000; i++) {} // Затримка
+        console.profileEnd("Мій профіль");
+
+        // 8. Ассерти
+        const condition = false;
+        console.assert(condition, "Це повідомлення з'явиться, якщо умова хибна.");
+        
+        // 9. Додаткові тести
+        let a = 10;
+        let b = 3;
+        let remainder = a % b;
+        console.log("Остача від ділення " + a + " на " + b + " = " + remainder);
+        console.log("Остача від ділення " + a + " на " + b + " дорівнює нулю: " + (remainder === 0));
+        
+        let array = ["яблуко", "банан", "вишня", "груша", "апельсин"];
+        console.log("Елементи масиву (починаючи з другого):");
+        for (let i = 1; i < array.length; i++) {
+            console.log("Елемент " + (i + 1) + ": " + array[i]);
+        }
+        
+        let a1 = 5;
+        console.log("a1=" + a1);
+        console.log("a1=", a1);
+    }
+</script>
+
+</body>
+</html>
