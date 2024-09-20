@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Розрахунок площі та перегляд зображень</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        /* Стилі для екранної клавіатури */
+        .keyboard { margin-top: 20px; }
+        .keyboard-row { display: flex; margin-bottom: 10px; }
+        .keyboard-row button { margin-right: 5px; padding: 10px; font-size: 16px; cursor: pointer; }
+        #textInput { width: 100%; height: 100px; font-size: 16px; margin-top: 10px; }
+        /* Стилі для перегляду зображень */
+        #image-container { text-align: center; margin-top: 20px; }
+        #image { max-width: 100%; height: auto; }
+        #controls { margin-top: 20px; }
+        #controls button { padding: 10px 20px; font-size: 16px; }
+        /* Стилі для арифметичних завдань */
+        #result { margin-top: 10px; }
+        /* Стилі для ієрархії */
+        ul { list-style-type: none; padding-left: 20px; }
+        .toggle { cursor: pointer; color: blue; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <p><a href="../index.html">Повернення до Лабораторних</a></p>
+    <h1>Розрахунок площі геометричних фігур</h1>
+
+    <label for="figure">Виберіть фігуру:</label>
+    <select id="figure">
+        <option value="square">Квадрат</option>
+        <option value="rectangle">Прямокутник</option>
+        <option value="circle">Коло</option>
+    </select>
+
+    <div id="parameters">
+        <label for="param1">Параметр 1:</label>
+        <input type="number" id="param1" placeholder="Сторона/Радіус" />
+        <label for="param2">Параметр 2 (для прямокутника):</label>
+        <input type="number" id="param2" placeholder="Ширина" style="display:none;" />
+    </div>
+
+    <h2>Площа: <span id="area">0</span></h2>
+
+    <!-- Екранна клавіатура -->
+    <h1>Екранна клавіатура</h1>
+    <textarea id="textInput" placeholder="Введіть текст тут..."></textarea>
+    <div class="keyboard">
+        <div class="keyboard-row" id="numbers-row"></div>
+        <div class="keyboard-row" id="letters-row-1"></div>
+        <div class="keyboard-row" id="letters-row-2"></div>
+        <div class="keyboard-row" id="letters-row-3"></div>
+    </div>
+    
+    <button id="clearBtn">Очистити поле</button>
+    <button id="toggleLangBtn">Alt+Shift</button>
+
+    <!-- Перегляд зображень -->
+    <h1>Перегляд зображень</h1>
+    <div id="image-container">
+        <img id="image" alt="Зображення" />
+    </div>
+    <div id="controls">
+        <button id="prevBtn">Назад</button>
+        <button id="nextImageBtn">Вперед</button>
+    </div>
+
+    <h1>Перевірка Знань</h1>
+    <div id="score">Загальний рахунок: 0% (0 правильних відповідей з 0)</div>
+    <div id="task"></div>
+    <input type="number" id="answer" placeholder="Ваша відповідь">
+    <button id="checkBtn">Перевірити</button>
+    <button id="nextTaskBtn" disabled>Наступне завдання</button>
+    <div id="result"></div>
+
+    <h1>Ієрархія Фруктів та Овочів</h1>
+    <div id="tree"></div>
+
+    <script>
+        // Розрахунок площі
+        document.addEventListener('DOMContentLoaded', function() {
+            const figureSelect = document.getElementById('figure');
+            const param1Input = document.getElementById('param1');
+            const param2Input = document.getElementById('param2');
+            const areaDisplay = document.getElementById('area');
+
+            figureSelect.addEventListener('change', function() {
+                const selectedFigure = figureSelect.value;
+
+                if (selectedFigure === 'rectangle') {
+                    param2Input.style.display = 'inline';
+                } else {
+                    param2Input.style.display = 'none';
+                }
+                calculateArea();
+            });
+
+            param1Input.addEventListener('input', calculateArea);
+            param2Input.addEventListener('input', calculateArea);
+
+            function calculateArea() {
+                const selectedFigure = figureSelect.value;
+                const param1 = parseFloat(param1Input.value);
+                const param2 = parseFloat(param2Input.value);
+                let area = 0;
+
+                switch (selectedFigure) {
+                    case 'square':
+                        if (!isNaN(param1)) {
+                            area = param1 * param1;
+                        }
+                        break;
+                    case 'rectangle':
+                        if (!isNaN(param1) && !isNaN(param2)) {
+                            area = param1 * param2;
+                        }
+                        break;
+                    case 'circle':
+                        if (!isNaN(param1)) {
+                            area = Math.PI * param1 * param1;
+                        }
+                        break;
+                }
+
+                areaDisplay.textContent = area.toFixed(2);
+            }
+        });
+
+        // Екранна клавіатура
+        const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const ukrLetters = ['а', 'б', 'в', 'г', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'];
+        const engLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
+        let currentLang = 'ukr';
+
+        function createKeyboard(letters) {
+            const numbersRow = document.getElementById('numbers-row');
+            const lettersRow1 = document.getElementById('letters-row-1');
+            const lettersRow2 = document.getElementById('letters-row-2');
+            const lettersRow3 = document.getElementById('letters-row-3');
+            const textInput = document.getElementById('textInput');
+
+            // Очищуємо існуючі кнопки
+            numbersRow.innerHTML = '';
+            lettersRow1.innerHTML = '';
+            lettersRow2.innerHTML = '';
+            lettersRow3.innerHTML = '';
+
+            // Створення кнопок для цифр
+            numbers.forEach(num => {
+                const btn = document.createElement('button');
+                btn.textContent = num;
+                btn.addEventListener('click', () => textInput.value += num);
+                numbersRow.appendChild(btn);
+            });
+
+            // Створення кнопок для літер
+            [lettersRow1, lettersRow2, lettersRow3].forEach((row, index) => {
+                const start = index * 11;
+                const end = start + 11;
+                letters.slice(start, end).forEach(letter => {
+                    const btn = document.createElement('button');
+                    btn.textContent = letter;
+                    btn.addEventListener('click', () => textInput.value += letter);
+                    row.appendChild(btn);
+                });
+            });
+        }
+
+        // Очищення поля
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('textInput').value = '';
+        });
+
+        // Перемикання розкладки
+        document.getElementById('toggleLangBtn').addEventListener('click', () => {
+            currentLang = currentLang === 'ukr' ? 'eng' : 'ukr';
+            createKeyboard(currentLang === 'ukr' ? ukrLetters : engLetters);
+        });
+
+        // Створюємо початкову клавіатуру
+        createKeyboard(ukrLetters);
+
+        // Перегляд зображень
+        let images = ['lab3.photo/photo.png', 'lab3.photo/photo1.png', 'lab3.photo/photo2.png', 'lab3.photo/photo3.jpg'];
+        let currentIndex = 0;
+        const imageElement = document.getElementById('image');
+
+        function updateImage() {
+            imageElement.src = images[currentIndex];
+        }
+
+        updateImage();
+  
+        document.getElementById('nextImageBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
+        });
+
+        // Перевірка знань
+        let currentTask, correctAnswer, totalQuestions = 0, correctAnswers = 0;
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateTask() {
+            const num1 = getRandomInt(0, 9);
+            const num2 = getRandomInt(0, 9);
+            const operations = ['+', '-', '*', '/'];
+            const operation = operations[getRandomInt(0, operations.length - 1)];
+            currentTask = `${num1} ${operation} ${num2}`;
+            switch (operation) {
+                case '+':
+                    correctAnswer = num1 + num2;
+                    break;
+                case '-':
+                    correctAnswer = num1 - num2;
+                    break;
+                case '*':
+                    correctAnswer = num1 * num2;
+                    break;
+                case '/':
+                    correctAnswer = num2 !== 0 ? (num1 / num2) : 'undefined';
+                    break;
+            }
+            document.getElementById('task').innerText = currentTask + ' =';
+            document.getElementById('answer').value = '';
+            document.getElementById('result').innerText = '';
+            totalQuestions++;
+            document.getElementById('nextTaskBtn').innerText = totalQuestions === 5 ? 'Завершити' : 'Наступне завдання';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', () => {
+            const userAnswer = parseFloat(document.getElementById('answer').value);
+            if (userAnswer === correctAnswer) {
+                correctAnswers++;
+                document.getElementById('result').innerText = 'Правильно!';
+            } else {
+                document.getElementById('result').innerText = `Помилка, правильна відповідь «${correctAnswer}».`;
+            }
+            document.getElementById('nextTaskBtn').disabled = false; // Активуємо кнопку "Наступне завдання"
+            updateScore();
+        });
+
+        document.getElementById('nextTaskBtn').addEventListener('click', () => {
+            if (totalQuestions < 5) {
+                generateTask();
+            } else {
+                document.getElementById('result').innerText = 'Ви виконали всі завдання!';
+                this.disabled = true; // Вимкнути кнопку
+                document.getElementById('checkBtn').disabled = true; // Вимкнути кнопку перевірки
+            }
+        });
+
+        function updateScore() {
+            const percentage = totalQuestions === 0 ? 0 : Math.round((correctAnswers / totalQuestions) * 100);
+            document.getElementById('score').innerText = `Загальний рахунок: ${percentage}% (${correctAnswers} правильних відповідей з ${totalQuestions})`;
+        }
+
+        // Початок з першого завдання
+        generateTask();
+
+        // Ієрархія фруктів та овочів
+        const data = {
+            "fruits": ["apple", "pineapple", "apricot", "pear", "lemon"],
+            "vegetables": ["potatoes", "beetroot", "carrots", "pear"]
+        };
+
+        function createTree(data) {
+            const tree = document.createElement('ul');
+            for (const category in data) {
+                const categoryItem = document.createElement('li');
+                const toggle = document.createElement('span');
+                toggle.className = 'toggle';
+                toggle.textContent = category;
+                
+                const subList = document.createElement('ul');
+                data[category].forEach(item => {
+                    const itemNode = document.createElement('li');
+                    itemNode.textContent = item;
+                    subList.appendChild(itemNode);
+                });
+
+                categoryItem.appendChild(toggle);
+                categoryItem.appendChild(subList);
+                tree.appendChild(categoryItem);
+
+                toggle.addEventListener('click', () => {
+                    subList.style.display = subList.style.display === 'none' ? 'block' : 'none';
+                });
+
+                subList.style.display = 'none'; // Сховати підсписки за замовчуванням
+            }
+            return tree;
+        }
+        document.getElementById('tree').appendChild(createTree(data));
+    </script>
+</body>
+</html>
