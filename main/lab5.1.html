@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню вкладок</title>
+    <style>
+        body {
+            background-color: #657077;
+            margin: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .tabbed_box {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .tabbed_box h4 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 23px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .tabbed_box h4 small {
+            color: #e3e9ec;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+
+        .tabbed_area {
+            border: 1px solid #494e52;
+            background-color: #636d76;
+            padding: 8px;
+        }
+
+        ul.tabs {
+            margin: 0;
+            padding: 0;
+            margin-top: 5px;
+            margin-bottom: 6px;
+        }
+
+        ul.tabs li {
+            list-style: none;
+            display: inline;
+        }
+
+        ul.tabs li a {
+            background-color: #464c54;
+            color: #ffebb5;
+            padding: 8px 14px;
+            text-decoration: none;
+            font-size: 12px;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #464c54;
+        }
+
+        ul.tabs li a:hover {
+            background-color: #2f343a;
+            border-color: #2f343a;
+        }
+
+        ul.tabs li a.active {
+            background-color: #ffffff;
+            color: #282e32;
+            border: 1px solid #464c54;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .content {
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #464c54;
+            font-size: 14px;
+        }
+
+        #content_2, #content_3 {
+            display: none;
+        }
+
+        /* Стиль для списків контенту */
+        .content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .content ul li {
+            padding: 10px 0; /* Збільшено padding між елементами */
+            border-bottom: 1px solid #ccc;
+        }
+
+        .content ul li:last-child {
+            border-bottom: none;
+        }
+
+        .post-count {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+        function tabSwitch(new_tab, new_content) {
+            document.getElementById('content_1').style.display = 'none';
+            document.getElementById('content_2').style.display = 'none';
+            document.getElementById('content_3').style.display = 'none';
+            document.getElementById(new_content).style.display = 'block';
+        
+            document.getElementById('tab_1').className = '';
+            document.getElementById('tab_2').className = '';
+            document.getElementById('tab_3').className = '';
+            document.getElementById(new_tab).className = 'active';
+        }
+    </script>
+</head>
+<body>
+    <p><a href="../index.html">Назад до головної</a></p>
+    <div id="tabbed_box_1" class="tabbed_box">
+        <h4>Browse Site <small>Select a Tab</small></h4>
+        <div class="tabbed_area">
+            <ul class="tabs">
+                <li><a href="javascript:tabSwitch('tab_1', 'content_1');" id="tab_1" class="active">Topics</a></li>
+                <li><a href="javascript:tabSwitch('tab_2', 'content_2');" id="tab_2">Archives</a></li>
+                <li><a href="javascript:tabSwitch('tab_3', 'content_3');" id="tab_3">Pages</a></li>
+            </ul>
+
+            <div id="content_1" class="content">
+                <ul>
+                    <li>HTML Tutorials <span class="post-count">6 posts</span></li>
+                    <li>CSS Techniques <span class="post-count">2 posts</span></li>
+                    <li>Website Builds <span class="post-count">0 posts</span></li>
+                    <li>Flash <span class="post-count">0 posts</span></li>
+                    <li>Site Skills <span class="post-count">13 posts</span></li>
+                    <li>Some Category <span class="post-count">13 posts</span></li>
+                </ul>
+            </div>
+
+            <div id="content_2" class="content">
+                <ul>
+                    <li>January Archives <span class="post-count">10 posts</span></li>
+                    <li>February Archives <span class="post-count">8 posts</span></li>
+                    <li>March Archives <span class="post-count">6 posts</span></li>
+                    <li>April Archives <span class="post-count">7 posts</span></li>
+                </ul>
+            </div>
+
+            <div id="content_3" class="content">
+                <ul>
+                    <li>About Us <span class="post-count">Info</span></li>
+                    <li>Contact <span class="post-count">Details</span></li>
+                    <li>Privacy Policy <span class="post-count">Info</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
