@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестування</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Тестування</h1>
+<form id="testForm">
+    <!-- Запитання 1 -->
+    <h3>1. Який колір небо?</h3>
+    <input type="radio" name="pol0" value="1"> Синій<br>
+    <input type="radio" name="pol0" value="0"> Червоний<br>
+    <input type="radio" name="pol0" value="0"> Зелений<br>
+    <input type="radio" name="pol0" value="0"> Жовтий<br>
+
+    <!-- Запитання 2 -->
+    <h3>2. Які з цих фрукти?</h3>
+    <input type="checkbox" name="pol1" value="1"> Яблуко<br>
+    <input type="checkbox" name="pol1" value="1"> Груша<br>
+    <input type="checkbox" name="pol1" value="0"> Помідор<br>
+    <input type="checkbox" name="pol1" value="0"> Огірок<br>
+
+    <!-- Запитання 3 -->
+    <h3>3. Виберіть ваші хобі:</h3>
+    <select name="pol2">
+        <option value="0">Виберіть...</option>
+        <option value="1">Читання</option>
+        <option value="0">Сон</option>
+        <option value="1">Малювання</option>
+    </select>
+
+    <!-- Запитання 4 -->
+    <h3>4. Який із цих континентів?</h3>
+    <input type="checkbox" name="pol3" value="1"> Європа<br>
+    <input type="checkbox" name="pol3" value="1"> Азія<br>
+    <input type="checkbox" name="pol3" value="0"> Антарктида<br>
+    <input type="checkbox" name="pol3" value="0"> Марс<br>
+
+    <!-- Запитання 5 -->
+    <h3>5. Який з цих видів спорту?</h3>
+    <input type="radio" name="pol4" value="1"> Футбол<br>
+    <input type="radio" name="pol4" value="0"> Крикет<br>
+    <input type="radio" name="pol4" value="0"> Бейсбол<br>
+    <input type="radio" name="pol4" value="0"> Плавання<br>
+
+    <!-- Запитання 6 -->
+    <h3>6. Оберіть кольори:</h3>
+    <select name="pol5" multiple>
+        <option value="1">Червоний</option>
+        <option value="1">Синій</option>
+        <option value="0">Зелений</option>
+        <option value="0">Жовтий</option>
+    </select>
+
+    <!-- Запитання 7 -->
+    <h3>7. Ваше ім'я:</h3>
+    <input type="text" name="pol6">
+
+    <button type="button" onclick="calculateScore()">Завершити тестування</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+function calculateScore() {
+    let totalScore = 0;
+    let resultsHTML = "<table><tr><th>Запитання</th><th>Відповідь</th><th>Бали</th></tr>";
+
+    // Запитання 1
+    const radioAnswers = document.getElementsByName('pol0');
+    let radioScore = 0;
+    for (let i = 0; i < radioAnswers.length; i++) {
+        if (radioAnswers[i].checked) {
+            radioScore = parseFloat(radioAnswers[i].value);
+            resultsHTML += `<tr><td>1. Який колір небо?</td><td>${radioAnswers[i].nextSibling.nodeValue}</td><td>${radioScore}</td></tr>`;
+        }
+    }
+    totalScore += radioScore;
+
+    // Запитання 2
+    const checkboxAnswers1 = document.getElementsByName('pol1');
+    let checkboxScore1 = 0;
+    let correctCount1 = 0;
+    let selectedCount1 = 0;
+    for (let i = 0; i < checkboxAnswers1.length; i++) {
+        if (checkboxAnswers1[i].checked) {
+            selectedCount1++;
+            checkboxScore1 += parseFloat(checkboxAnswers1[i].value);
+            if (checkboxAnswers1[i].value === "1") correctCount1++;
+        }
+    }
+    if (selectedCount1 === 2 && correctCount1 === 2) checkboxScore1 = 2;
+    else if (selectedCount1 === 2 && correctCount1 === 1) checkboxScore1 = 1;
+    resultsHTML += `<tr><td>2. Які з цих фрукти?</td><td>${getSelectedCheckboxes(checkboxAnswers1)}</td><td>${checkboxScore1}</td></tr>`;
+    totalScore += checkboxScore1;
+
+    // Запитання 3
+    const singleSelect = document.getElementsByName('pol2')[0];
+    let selectScore = parseFloat(singleSelect.value);
+    resultsHTML += `<tr><td>3. Виберіть ваші хобі:</td><td>${singleSelect.options[singleSelect.selectedIndex].text}</td><td>${selectScore}</td></tr>`;
+    totalScore += selectScore;
+
+    // Запитання 4
+    const checkboxAnswers2 = document.getElementsByName('pol3');
+    let checkboxScore2 = 0;
+    let correctCount2 = 0;
+    let selectedCount2 = 0;
+    for (let i = 0; i < checkboxAnswers2.length; i++) {
+        if (checkboxAnswers2[i].checked) {
+            selectedCount2++;
+            checkboxScore2 += parseFloat(checkboxAnswers2[i].value);
+            if (checkboxAnswers2[i].value === "1") correctCount2++;
+        }
+    }
+    if (selectedCount2 === 2 && correctCount2 === 2) checkboxScore2 = 2;
+    else if (selectedCount2 === 2 && correctCount2 === 1) checkboxScore2 = 1;
+    resultsHTML += `<tr><td>4. Який із цих континентів?</td><td>${getSelectedCheckboxes(checkboxAnswers2)}</td><td>${checkboxScore2}</td></tr>`;
+    totalScore += checkboxScore2;
+
+    // Запитання 5
+    const radioAnswers2 = document.getElementsByName('pol4');
+    let radioScore2 = 0;
+    for (let i = 0; i < radioAnswers2.length; i++) {
+        if (radioAnswers2[i].checked) {
+            radioScore2 = parseFloat(radioAnswers2[i].value);
+            resultsHTML += `<tr><td>5. Який з цих видів спорту?</td><td>${radioAnswers2[i].nextSibling.nodeValue}</td><td>${radioScore2}</td></tr>`;
+        }
+    }
+    totalScore += radioScore2;
+
+    // Запитання 6
+    const multiSelect = document.getElementsByName('pol5')[0];
+    let multiScore = 0;
+    let selectedCount3 = 0;
+    for (let i = 0; i < multiSelect.options.length; i++) {
+        if (multiSelect.options[i].selected) {
+            selectedCount3++;
+            multiScore += parseFloat(multiSelect.options[i].value);
+        }
+    }
+    if (selectedCount3 === 3 || selectedCount3 === 4) multiScore = 0;
+    resultsHTML += `<tr><td>6. Оберіть кольори:</td><td>${getSelectedMultiple(multiSelect)}</td><td>${multiScore}</td></tr>`;
+    totalScore += multiScore;
+
+    // Запитання 7
+    const nameInput = document.getElementsByName('pol6')[0].value;
+    resultsHTML += `<tr><td>7. Ваше ім'я:</td><td>${nameInput}</td><td>0</td></tr>`; // текстове поле не оцінюється
+
+    resultsHTML += `</table>`;
+    resultsHTML += `<h3>Загальний бал: ${totalScore}</h3>`;
+    document.getElementById('results').innerHTML = resultsHTML;
+}
+
+function getSelectedCheckboxes(checkboxes) {
+    return Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.nextSibling.nodeValue.trim())
+        .join(', ');
+}
+
+function getSelectedMultiple(selectElement) {
+    return Array.from(selectElement.options)
+        .filter(option => option.selected)
+        .map(option => option.text)
+        .join(', ');
+}
+</script>
+
+</body>
+</html>
