@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .error { border: 2px solid red; color: red; }
+        .success { border: 2px solid green; }
+        .message { color: red; font-size: 0.8em; }
+        .success .message { color: green; }
+    </style>
+    <title>Перевірка форми</title>
+</head>
+<body>
+    <p><a href="../index.html">Назад до головної</a></p>
+    <form id="myForm">
+        <label>Email: <input type="text" id="email"><span class="message" id="emailMsg"></span></label><br>
+        <label>Ім’я та Прізвище: <input type="text" id="name"><span class="message" id="nameMsg"></span></label><br>
+        <label>Логін: <input type="text" id="login"><span class="message" id="loginMsg"></span></label><br>
+        <label>Пароль: <input type="password" id="password"><span class="message" id="passwordMsg"></span></label><br>
+        <label>Поштовий індекс: <input type="text" id="zip"><span class="message" id="zipMsg"></span></label><br>
+        <button type="button" onclick="validateForm()">Перевірити</button>
+    </form>
+
+    <script>
+        // Функція перевірки форми
+        function validateForm() {
+            // Зчитуємо значення полів
+            let email = document.getElementById('email').value;
+            let name = document.getElementById('name').value;
+            let login = document.getElementById('login').value;
+            let password = document.getElementById('password').value;
+            let zip = document.getElementById('zip').value;
+
+            // Регулярні вирази для перевірки
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@pnu\.edu\.ua$/;
+            let namePattern = /^[A-ZА-Я][a-zа-я]+ [A-ZА-Я]+$/;
+            let loginPattern = /^[a-zA-Z0-9]+$/;
+            let passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-!@#$%^&*])[A-Za-z\d-!@#$%^&*]{8,}$/;
+            let zipPattern = /^\d{5}$/;
+
+            // Перевірка полів
+            checkField(email, emailPattern, 'email', 'Емейл повинен мати формат name@pnu.edu.ua');
+            checkField(name, namePattern, 'name', 'Ім’я та прізвище: Перша буква імені велика, прізвище - всі великі');
+            checkField(login, loginPattern, 'login', 'Логін повинен містити тільки латинські літери');
+            checkField(password, passwordPattern, 'password', 'Пароль повинен містити мінімум 8 символів, букви, цифри і спецсимволи');
+            checkField(zip, zipPattern, 'zip', 'Поштовий індекс повинен складатися з 5 цифр');
+        }
+
+        // Функція перевірки кожного поля
+        function checkField(value, pattern, fieldId, errorMsg) {
+            let field = document.getElementById(fieldId);
+            let msg = document.getElementById(fieldId + 'Msg');
+            if (pattern.test(value)) {
+                field.classList.remove('error');
+                field.classList.add('success');
+                msg.textContent = "✓";
+                msg.style.color = "green";
+            } else {
+                field.classList.remove('success');
+                field.classList.add('error');
+                msg.textContent = errorMsg;
+                msg.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналіз e-mail</title>
+</head>
+<body>
+    <p><a href="../index.html">Назад до головної</a></p>
+
+    <h2>Аналіз e-mail</h2>
+    <p id="output"></p>
+
+    <script>
+        // Рядок з e-mail, який будемо аналізувати
+        let s = "dwbyu@mail.ua";
+        
+        // Регулярний вираз для аналізу структури e-mail
+        let r = /^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+)(\.[a-z0-9]+)*$/i;
+
+        // Виконуємо зіставлення e-mail з регулярним виразом
+        let a = s.match(r);
+
+        // Отримаємо посилання на елемент, де буде виведено результат
+        let output = document.getElementById('output');
+
+        // Якщо є відповідність, виводимо результат
+        if (a) {
+            for (let i = 0; i < a.length; i++) {
+                output.innerHTML += "<hr> a[" + i + "] = " + a[i] + "<br>";
+            }
+        } else {
+            // Якщо немає відповідності
+            output.innerHTML = "Немає відповідності регулярному виразу.";
+        }
+    </script>
+</body>
+</html>
