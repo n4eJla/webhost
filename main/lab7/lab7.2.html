@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 2: Робота з рядками</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .task-container {
+            margin-bottom: 20px;
+        }
+        .task-container h3 {
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+        button {
+            padding: 7px 15px;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+    
+</head>
+<body>
+    <p><a href="index.html">На головну</a></p>
+    <div class="task-container">
+        <h3>2.1. Порівняння довжини рядків</h3>
+        <input type="text" id="string1" placeholder="Введіть перший рядок">
+        <input type="text" id="string2" placeholder="Введіть другий рядок">
+        <button onclick="compareStrings()">Порівняти рядки</button>
+        <div class="result" id="compareResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>2.2. Пошук символів у рядку</h3>
+        <input type="text" id="searchString" placeholder="Введіть рядок">
+        <input type="text" id="searchChar" placeholder="Введіть символ для пошуку">
+        <button onclick="findCharIndexes()">Знайти символ</button>
+        <div class="result" id="charIndexesResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>2.3. Переведення першого символу у верхній регістр</h3>
+        <input type="text" id="capitalizeString" placeholder="Введіть рядок">
+        <button onclick="capitalizeFirst()">Перевести у верхній регістр</button>
+        <div class="result" id="capitalizeResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>2.4. Підрахунок голосних літер</h3>
+        <input type="text" id="vowelCountString" placeholder="Введіть рядок">
+        <button onclick="countVowels()">Підрахувати голосні</button>
+        <div class="result" id="vowelCountResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>2.5. Перевірка на спам</h3>
+        <input type="text" id="spamCheckString" placeholder="Введіть рядок">
+        <button onclick="checkSpam()">Перевірити на спам</button>
+        <div class="result" id="spamCheckResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>2.6. Скорочення рядка</h3>
+        <input type="text" id="truncateString" placeholder="Введіть рядок">
+        <input type="text" id="maxLength" placeholder="Введіть максимальну довжину">
+        <button onclick="truncateString()">Скоротити рядок</button>
+        <div class="result" id="truncateResult"></div>
+    </div>
+
+    <script>
+        // 2.1. Порівняння довжини рядків
+function compareStrings() {
+    const string1 = document.getElementById("string1").value;
+    const string2 = document.getElementById("string2").value;
+    let result = 0;
+    
+    if (string1.length > string2.length) {
+        result = 1;
+    } else if (string1.length < string2.length) {
+        result = -1;
+    }
+
+    document.getElementById("compareResult").textContent = `Результат: ${result}`;
+}
+
+// 2.2. Пошук символів у рядку
+function findCharIndexes() {
+    const str = document.getElementById("searchString").value;
+    const char = document.getElementById("searchChar").value;
+    let indexes = [];
+    
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === char) {
+            indexes.push(i);
+        }
+    }
+    
+    const count = indexes.length;
+    document.getElementById("charIndexesResult").textContent = `Індекси: ${indexes.join(', ')}. Кількість: ${count}`;
+}
+
+// 2.3. Переведення першого символу у верхній регістр
+function capitalizeFirst() {
+    const str = document.getElementById("capitalizeString").value;
+    if (str.length > 0) {
+        const result = str[0].toUpperCase() + str.slice(1);
+        document.getElementById("capitalizeResult").textContent = `Результат: ${result}`;
+    } else {
+        document.getElementById("capitalizeResult").textContent = 'Рядок порожній';
+    }
+}
+
+// 2.4. Підрахунок голосних літер
+function countVowels() {
+    const str = document.getElementById("vowelCountString").value;
+    const vowels = "аеєиіїоуюяАЕЄИІЇОУЮЯ";
+    let count = 0;
+    
+    for (let char of str) {
+        if (vowels.includes(char)) {
+            count++;
+        }
+    }
+
+    document.getElementById("vowelCountResult").textContent = `Кількість голосних: ${count}`;
+}
+
+// 2.5. Перевірка на спам
+function checkSpam() {
+    const spamWords = ["100% безкоштовно", "збільшення продажів", "тільки сьогодні", "не видаляйте"];
+    const str = document.getElementById("spamCheckString").value.toLowerCase();
+    let isSpam = false;
+    
+    for (let spamWord of spamWords) {
+        if (str.includes(spamWord)) {
+            isSpam = true;
+            break;
+        }
+    }
+
+    document.getElementById("spamCheckResult").textContent = `Чи є спам: ${isSpam}`;
+}
+
+// 2.6. Скорочення рядка
+function truncateString() {
+    const str = document.getElementById("truncateString").value;
+    const maxLength = parseInt(document.getElementById("maxLength").value, 10);
+    
+    if (str.length > maxLength) {
+        const truncated = str.slice(-1, maxLength - 3) + "...";
+        document.getElementById("truncateResult").textContent = `Результат: ${truncated}`;
+    } else {
+        document.getElementById("truncateResult").textContent = `Результат: ${str}`;
+    }
+}
+
+    </script>
+</body>
+</html>

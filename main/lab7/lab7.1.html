@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 1: Маніпуляції з числами та рядками</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .task-container {
+            margin-bottom: 20px;
+        }
+        .task-container h3 {
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+        button {
+            padding: 7px 15px;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <p><a href="index.html">На головну</a></p>
+    
+    <div class="task-container">
+        <h3>1.1. Вивести послідовність чисел в оберненому порядку (split)</h3>
+        <input type="text" id="sequenceInput" placeholder="Введіть числа через кому">
+        <button onclick="reverseSequence()">Вивести обернену послідовність</button>
+        <div class="result" id="sequenceResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>1.2. Видалити всі нулі з масиву (no_zeros)</h3>
+        <input type="text" id="zerosInput" placeholder="Введіть числа через кому">
+        <button onclick="noZeros()">Видалити нулі</button>
+        <div class="result" id="zerosResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>1.3. Вивести текстовий рядок у протилежному порядку (reverser)</h3>
+        <input type="text" id="reverseTextInput" placeholder="Введіть текст">
+        <button onclick="reverser()">Відобразити текст у протилежному порядку</button>
+        <div class="result" id="reverseTextResult"></div>
+    </div>
+
+    <div class="task-container">
+        <h3>1.4. Змінити текст (replace)</h3>
+        <button onclick="replaceText()">Змінити текст</button>
+        <div class="result" id="replaceTextResult"></div>
+    </div>
+
+    <script>
+        
+// 1.1. Вивести послідовність чисел в оберненому порядку
+function reverseSequence() {
+    const input = document.getElementById("sequenceInput").value;
+    const sequence = input.split(',').map(Number); // Перетворюємо на масив чисел
+    const reversedSequence = sequence.reverse(); // Обертаємо послідовність
+    document.getElementById("sequenceResult").textContent = reversedSequence.join(', '); // Виводимо результат
+}
+
+// 1.2. Видалити всі нулі з масиву
+function noZeros() {
+    const input = document.getElementById("zerosInput").value;
+    const numbers = input.split(',').map(Number); // Перетворюємо на масив чисел
+    const filteredNumbers = numbers.filter(num => num !== 0); // Фільтруємо масив, прибираючи нулі
+    document.getElementById("zerosResult").textContent = filteredNumbers.join(', '); // Виводимо результат
+}
+
+// 1.3. Вивести текстовий рядок у протилежному порядку
+function reverser() {
+    const input = document.getElementById("reverseTextInput").value;
+    const reversedText = input.split('').reverse().join(''); // Обрераємо текст
+    document.getElementById("reverseTextResult").textContent = reversedText; // Виводимо результат
+}
+
+// 1.4. Змінити текст "Я не люблю морозиво"
+function replaceText() {
+    let sentence = "Я не люблю морозиво";
+    
+    // a) Міняємо друге і третє слово місцями
+    let words = sentence.split(' ');
+    [words[1], words[2]] = [words[2], words[1]]; // Міняємо місцями 2-е і 3-є слово
+    
+    // b) Заміняємо пропуски на коми
+    let modifiedSentence = words.join(','); // Заміна пробілів на коми
+    
+    document.getElementById("replaceTextResult").textContent = modifiedSentence; // Виводимо результат
+}
+
+    </script>
+</body>
+</html>

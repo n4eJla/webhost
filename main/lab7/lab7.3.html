@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвертація стилів змінних та дат</title>
+</head>
+<body>
+    <p><a href="index.html">На головну</a></p>
+
+    <h1>Конвертація стилів змінних та заміна дат</h1>
+
+    <!-- Введення для змінних у Snake Case -->
+    <h3>Введіть змінні у Snake Case (через кому):</h3>
+    <input type="text" id="snakeCaseInput" placeholder="my_variable, new_brand_product">
+    <button onclick="convertToCamelCase()">Конвертувати в Camel Case</button>
+
+    <!-- Виведення результатів -->
+    <p><strong>Змінні в Camel Case:</strong> <span id="camelCaseOutput"></span></p>
+
+    <h3>Введіть змінні у Camel Case (через кому):</h3>
+    <input type="text" id="camelCaseInput" placeholder="myVariable, newBrandProduct">
+    <button onclick="convertToSnakeCase()">Конвертувати в Snake Case</button>
+
+    <p><strong>Змінні в Snake Case:</strong> <span id="snakeCaseOutput"></span></p>
+
+    <!-- Введення тексту з датами -->
+    <h3>Введіть текст з датами (yyyy/mm/dd):</h3>
+    <textarea id="textWithDates" rows="5" cols="50" placeholder="Введіть текст з датами тут"></textarea>
+    <button onclick="replaceDates()">Замінити дати на формат dd.mm.yyyy</button>
+
+    <p><strong>Текст після заміни дат:</strong></p>
+    <p id="formattedText"></p>
+
+    <script>
+        // Функція для конвертації зі Snake Case в Camel Case
+function toCamelCase(snakeStr) {
+    return snakeStr.replace(/(_\w)/g, function(match) {
+        return match[1].toUpperCase();
+    });
+}
+
+// Функція для конвертації з Camel Case в Snake Case
+function toSnakeCase(camelStr) {
+    return camelStr.replace(/([A-Z])/g, function(match) {
+        return '_' + match.toLowerCase();
+    });
+}
+
+// Обробка введення зі Snake Case до Camel Case
+function convertToCamelCase() {
+    let input = document.getElementById('snakeCaseInput').value;
+    let variables = input.split(',').map(v => v.trim());
+    let camelCaseVariables = variables.map(toCamelCase);
+    document.getElementById('camelCaseOutput').innerText = camelCaseVariables.join(', ');
+}
+
+// Обробка введення з Camel Case до Snake Case
+function convertToSnakeCase() {
+    let input = document.getElementById('camelCaseInput').value;
+    let variables = input.split(',').map(v => v.trim());
+    let snakeCaseVariables = variables.map(toSnakeCase);
+    document.getElementById('snakeCaseOutput').innerText = snakeCaseVariables.join(', ');
+}
+
+// Функція для заміни дат у форматі yyyy/mm/dd на dd.mm.yyyy
+function replaceDates() {
+    let inputText = document.getElementById('textWithDates').value;
+    let formattedText = inputText.replace(/\b(\d{4})\/(\d{2})\/(\d{2})\b/g, '$3.$2.$1');
+    document.getElementById('formattedText').innerText = formattedText;
+}
+
+    </script>
+</body>
+</html>
