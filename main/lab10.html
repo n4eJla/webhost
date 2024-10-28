@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна 10</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        /* Загальні стилі для сторінки */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #5b9bd5;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        /* Стилі для прихованого тексту та посилання */
+        #hide_text {
+            display: none;
+            padding: 10px;
+            background-color: #eef2ff;
+            border: 1px solid #c5d1f2;
+            border-radius: 5px;
+            color: #3b4c91;
+            margin-top: 10px;
+        }
+
+        .button {
+            color: #fff;
+            background-color: #5b9bd5;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+        .button:hover {
+            background-color: #4a89c7;
+        }
+
+        /* Стилі для завдання 2 */
+        .clickable-box {
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            cursor: pointer;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .clickable-box.highlight {
+            border: 2px solid #5b9bd5;
+            background-color: #dce6f9;
+        }
+
+        .clickable-box.hover-effect {
+            background-color: #e9f0ff;
+        }
+
+        /* Кнопки для клік-ів */
+        #single-click, #double-click {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            color: #fff;
+            background-color: #5b9bd5;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #single-click:hover, #double-click:hover {
+            background-color: #4a89c7;
+        }
+
+        /* Стиль для показу зображення */
+        .image-box {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-box img {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .image-box img:hover {
+            transform: scale(1.05);
+        }
+
+        .image-caption {
+            display: none;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        #show-image {
+            color: #5b9bd5;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Стилі для форми */
+        #check-form {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #check-form input[type="text"] {
+            padding: 8px;
+            font-size: 1em;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #check-form input[type="submit"] {
+            padding: 8px 15px;
+            font-size: 1em;
+            background-color: #5b9bd5;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #check-form input[type="submit"]:hover {
+            background-color: #4a89c7;
+        }
+
+        #result-message {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html">Назад на головну</a>
+    <h1>Контент сторінки</h1>
+    <p>Це перший абзац.</p>
+    <a href="#" class="button">Натисніть, щоб показати текст</a>
+    <div id="hide_text">Демонстраційний прихований текст</div>
+    <p>Це останній абзац.</p>
+
+    <!-- Завдання 2 -->
+    <p>Тут буде оновлений текст для першого і останнього абзацу.</p>
+    
+    <!-- Завдання 3 -->
+    <div class="clickable-box">Клікніть або двічі клікніть тут</div>
+    <button id="single-click">Кнопка для одинарного кліку</button>
+    <button id="double-click">Кнопка для подвійного кліку</button>
+    <br>
+    <a href="#" id="show-image">Показати зображення</a>
+    <div class="image-box">
+        <img src="image.jpg" alt="Зображення">
+        <p class="image-caption">Це приклад зображення</p>
+    </div>
+
+    <!-- Форма для перевірки введених даних -->
+    <p>Введіть в текстове поле слово 'correct'.</p>
+    <form id="check-form">
+        <div>
+            <input type="text" id="input-text">
+            <input type="submit" value="Перевірити">
+        </div>
+    </form>
+    <span id="result-message"></span>
+
+    <script>
+        $(document).ready(function() {
+            alert("Бібліотека jQuery готова до роботи!");
+
+            var $text = $('#hide_text');
+            $text.hide();
+            $('.button').click(function() {
+                $text.show(200);
+            });
+
+            $("p:first").text("DOM first!");
+            $("p:last").text("DOM last!");
+
+            $('.clickable-box').hover(
+                function() { $(this).addClass('hover-effect'); },
+                function() { $(this).removeClass('hover-effect'); }
+            );
+
+            $('.clickable-box').on('click', function() {
+                $(this).toggleClass('highlight');
+            }).on('dblclick', function() {
+                $(this).removeClass('highlight');
+            });
+
+            $('#single-click').on('click', function() {
+                alert("Одинарний клік");
+            });
+            $('#double-click').on('dblclick', function() {
+                alert("Подвійний клік");
+            });
+
+            $('#show-image').click(function() {
+                $('.image-box').toggle();
+            });
+            $('.image-box img').click(function() {
+                $(this).parent().hide();
+            }).hover(
+                function() { $('.image-caption').show(); },
+                function() { $('.image-caption').hide(); }
+            );
+
+            $('#check-form').submit(function(e) {
+                e.preventDefault();
+                if ($('#input-text').val() === 'correct') {
+                    $('#result-message').text("Успішно!").css("color", "green").show();
+                } else {
+                    $('#result-message').text("Неправильно!").css("color", "#d9534f").show().fadeOut(1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
