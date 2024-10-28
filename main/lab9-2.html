@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анімація Логотипу - Інженерія ПЗ</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #121212;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .logo-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #61dafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.5s infinite alternate ease-in-out;
+    position: relative;
+  }
+  
+  .title {
+    font-size: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: #121212;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  
+  /* Стиль кнопки */
+  #toggleButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #61dafb;
+    color: #121212;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #toggleButton:hover {
+    background-color: #4fc2e0;
+  }
+  
+  /* Анімація для кола */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.2);
+      background-color: #4fc2e0;
+    }
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+    100% {
+      transform: translateX(100px) translateY(-50px) scale(1.5);
+    }
+  }
+  
+  @keyframes textAppear {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  </style>
+<body>
+  <a href="../index.html">Назад на головну</a>
+  <div class="logo-container" id="logo">
+    <div class="circle">
+      <h1 class="title">Інженерія ПЗ</h1>
+    </div>
+  </div>
+  <button id="toggleButton">Запустити анімацію</button>
+
+  <script >
+
+
+const logo = document.getElementById("logo");
+const circle = document.querySelector(".circle");
+const title = document.querySelector(".title");
+const toggleButton = document.getElementById("toggleButton");
+
+let animationRunning = false;
+let animationTimeout;
+
+// Функція для запуску анімації
+function startAnimation() {
+  // Анімація руху кола і тексту разом
+  circle.style.animation = "move 3s infinite alternate ease-in-out";
+  title.style.opacity = 1;
+  title.style.animation = "textAppear 1s forwards";
+}
+
+// Функція для зупинки анімації
+function stopAnimation() {
+  circle.style.animation = "pulse 1.5s infinite alternate ease-in-out";
+  title.style.opacity = 0;
+  title.style.animation = "";
+}
+
+// Керування анімацією по кліку на логотип
+logo.addEventListener("click", () => {
+  if (animationRunning) {
+    stopAnimation();
+    clearTimeout(animationTimeout);
+  } else {
+    startAnimation();
+    animationTimeout = setTimeout(stopAnimation, 5000); // Зупинка через 5 секунд
+  }
+  animationRunning = !animationRunning;
+});
+
+// Керування анімацією по кнопці
+toggleButton.addEventListener("click", () => {
+  if (animationRunning) {
+    stopAnimation();
+    clearTimeout(animationTimeout);
+    toggleButton.textContent = "Запустити анімацію";
+  } else {
+    startAnimation();
+    animationTimeout = setTimeout(stopAnimation, 5000); // Зупинка через 5 секунд
+    toggleButton.textContent = "Зупинити анімацію";
+  }
+  animationRunning = !animationRunning;
+});
+
+  </script>
+</body>
+</html>

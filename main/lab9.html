@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анімація м'яча</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f8ff;
+}
+
+canvas {
+  background-color: #282c34;
+  border: 2px solid #61dafb;
+  width: 80vw;
+  height: 80vh;
+  display: block;
+}
+
+  </style>
+</head>
+<body>
+  <a href="../index.html">Назад на головну</a>
+  <canvas id="canvas"></canvas>
+  <script >
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = window.innerHeight * 0.8;
+
+    let x = canvas.width / 2;
+    let y = canvas.height / 2;
+    let radius = 30;
+    let dx = 4;
+    let dy = 4;
+
+// Анімація за допомогою requestAnimationFrame
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = "#61dafb";
+  ctx.fill();
+  ctx.closePath();
+
+  // Відбивання від стін
+  if (x + radius > canvas.width || x - radius < 0) {
+    dx = -dx;
+  }
+  if (y + radius > canvas.height || y - radius < 0) {
+    dy = -dy;
+  }
+
+  x += dx;
+  y += dy;
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// Додаткова анімація за допомогою setInterval
+setInterval(() => {
+  ctx.fillStyle = `rgba(255, 255, 255, 0.05)`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}, 100);
+
+  </script>
+</body>
+</html>
