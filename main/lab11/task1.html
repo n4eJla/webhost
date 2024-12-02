@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Methods</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #content {
+            margin: 20px auto;
+            padding: 15px;
+            width: 80%;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html">Повернення до головної сторінки</a>
+    <p><a href="main/lab11.html">Повернення до лабораторної №11</a></p>
+    <div id="content">Це початковий текст</div>
+    <button id="update-text">Оновити текст</button>
+    <button id="change-style">Змінити стиль</button>
+    <input type="text" id="input-field" value="Початкове значення">
+    <button id="update-value">Оновити значення</button>
+    <button id="add-attr">Додати атрибут</button>
+    <button id="remove-attr">Видалити атрибут</button>
+    <button id="update-attr">Оновити атрибут через функцію</button>
+
+    <script>
+        $(document).ready(function () {
+            // .html()
+            $('#update-text').click(function () {
+                $('#content').html('<strong>Оновлений текст</strong>');
+            });
+
+            // .css()
+            $('#change-style').click(function () {
+                $('#content').css({
+                    'color': 'blue',
+                    'font-size': '20px'
+                });
+            });
+
+            // .val()
+            $('#update-value').click(function () {
+                const newValue = $('#input-field').val();
+                alert('Поточне значення: ' + newValue);
+                $('#input-field').val('Нове значення');
+            });
+
+            // .attr(ім'я атрибута)
+            $('#add-attr').click(function () {
+                $('#content').attr('data-custom', 'example');
+                alert('Новий атрибут додано: ' + $('#content').attr('data-custom'));
+            });
+
+            // .removeAttr()
+            $('#remove-attr').click(function () {
+                $('#content').removeAttr('data-custom');
+                alert('Атрибут видалено');
+            });
+
+            // .attr(атрибути)
+            $('#update-attr').click(function () {
+                $('#content').attr({
+                    'title': 'Це заголовок',
+                    'data-info': 'Інформація'
+                });
+                alert('Додано кілька атрибутів');
+            });
+
+            // .attr(ім'я атрибута, функція)
+            $('#update-attr').click(function () {
+                $('#content').attr('data-info', function (index, oldValue) {
+                    return oldValue ? oldValue + ' (оновлено)' : 'Стартове значення';
+                });
+                alert('Атрибут "data-info" оновлено через функцію: ' + $('#content').attr('data-info'));
+            });
+        });
+    </script>
+</body>
+</html>

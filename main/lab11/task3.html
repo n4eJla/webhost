@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Methods</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+            padding: 15px;
+            width: 80%;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .box {
+            margin: 10px;
+            padding: 15px;
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            line-height: 100px;
+            display: inline-block;
+        }
+        .nested {
+            background-color: #28a745;
+        }
+        button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html">Повернення до головної сторінки</a>
+    <p><a href="main/lab11.html">Повернення до лабораторної №11</a></p>
+    <div id="container">
+        <div class="box" id="box1">Box 1</div>
+        <div class="box nested" id="box2">Box 2</div>
+        <div class="box" id="box3">Box 3</div>
+    </div>
+    <button id="add-box">.add()</button>
+    <button id="parent-box">.parent()</button>
+    <button id="addBack-box">.addBack()</button>
+    <button id="has-box">.has()</button>
+    <button id="map-box">.map()</button>
+
+    <div id="result">Результат буде тут</div>
+
+    <script>
+        $(document).ready(function () {
+            // .add()
+            $('#add-box').click(function () {
+                const addedBoxes = $('#box1').add('#box2');
+                $('#result').text('Метод .add(): Обрані елементи: ' + addedBoxes.map(function() {
+                    return $(this).text();
+                }).get().join(', '));
+            });
+
+            // .parent()
+            $('#parent-box').click(function () {
+                const parent = $('#box2').parent();
+                $('#result').text('Метод .parent(): Батьківський елемент: ' + parent.prop('tagName'));
+            });
+
+            // .addBack()
+            $('#addBack-box').click(function () {
+                const combined = $('#box2').next().addBack();
+                $('#result').text('Метод .addBack(): Обрані елементи: ' + combined.map(function() {
+                    return $(this).text();
+                }).get().join(', '));
+            });
+
+            // .has()
+            $('#has-box').click(function () {
+                const hasChild = $('#box2').has('.nested');
+                $('#result').text('Метод .has(): Блок має дочірній елемент з класом "nested": ' + (hasChild.length > 0 ? 'Так' : 'Ні'));
+            });
+
+            // .map()
+            $('#map-box').click(function () {
+                const texts = $('.box').map(function () {
+                    return $(this).text();
+                }).get();
+                $('#result').text('Метод .map(): Тексти всіх блоків: ' + texts.join(', '));
+            });
+        });
+    </script>
+</body>
+</html>
