@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Methods</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+            padding: 15px;
+            width: 80%;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .box {
+            margin: 10px;
+            padding: 15px;
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            line-height: 100px;
+            display: inline-block;
+        }
+        button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <p><a href="main/lab12.html">Лабораторна робота №12</a></p>
+    <a href="../index.html">Повернення до головної сторінки</a>
+    <div id="container">
+        <div class="box" id="box1">Box 1</div>
+        <div class="box" id="box2">Box 2</div>
+        <div class="box" id="box3">Box 3</div>
+    </div>
+
+    <button id="fadeIn-box">Fade In</button>
+    <button id="delay-box">Delay</button>
+    <button id="clearQueue-box">Clear Queue</button>
+    <button id="dequeue-box">Dequeue</button>
+
+    <div id="result">Результат буде тут</div>
+
+    <script>
+        $(document).ready(function () {
+            // .fadeIn()
+            $('#fadeIn-box').click(function () {
+                $('.box').hide().fadeIn(2000); // Спочатку ховаємо, потім показуємо з ефектом
+                $('#result').text('Метод .fadeIn(): Boxes will fade in.');
+            });
+
+            // .delay()
+            $('#delay-box').click(function () {
+                $('.box').css('background-color', '#007bff') // Повертаємо стандартний фон
+                    .delay(1000) // Затримка 1 секунда
+                    .queue(function (next) {
+                        $(this).css('background-color', '#ff5733'); // Змінюємо колір
+                        next(); // Переходимо до наступної функції
+                    });
+                $('#result').text('Метод .delay(): Color change will happen after delay.');
+            });
+
+            // .clearQueue()
+            $('#clearQueue-box').click(function () {
+                $('.box').clearQueue(); // Очищаємо чергу для всіх елементів
+                $('#result').text('Метод .clearQueue(): Queue has been cleared.');
+            });
+
+            // .dequeue()
+            $('#dequeue-box').click(function () {
+                // Додаємо функції до черги
+                $('.box').queue(function (next) {
+                    $(this).css('background-color', '#007bff'); // Перший крок: фон синій
+                    next(); // Перехід до наступної функції
+                }).queue(function (next) {
+                    $(this).css('background-color', '#28a745'); // Другий крок: фон зелений
+                    next(); // Перехід до наступної функції
+                }).dequeue(); // Запускаємо чергу
+                $('#result').text('Метод .dequeue(): The color change queue has started.');
+            });
+        });
+    </script>
+</body>
+</html>
